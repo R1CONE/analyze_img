@@ -1,26 +1,19 @@
 import os
 import easyocr
 
-
-folder_path = input("Enter your adress for folder without "" with your pictures: ")
-
-
-
+folder_path = input("Enter your address for the folder without spaces with your pictures: ")
 
 if os.path.exists(folder_path):
-
     files = os.listdir(folder_path)
-    print("files in folder :")
-    
+    print("Files in the folder:")
 
     file_list = []
     for file in files:
         print(file)
         file_list.append(file)
 
-        images_list = [file for file in file_list if file.endswith('.png')]
-
-    print("PNG files in :", images_list)
+    images_list = [file for file in file_list if file.endswith('.png')]
+    print("PNG files in:", images_list)
 
     ready_list = []
 
@@ -33,43 +26,38 @@ if os.path.exists(folder_path):
     amount_files = len(ready_list)
     print("Number of files:", amount_files)
 
-    for i in range(1, amount_files + 1):
-        globals()[f"text_{i}"] = f"This is text for file {i}"
-
-else: print('folder dont exist')
-
+else:
+    print('Folder does not exist')
 
 
 def text_recognition(file_path):
     reader = easyocr.Reader(["en"])
     result = reader.readtext(file_path, detail=0, paragraph=True)
-
     return result
 
 
-
-
 def main():
-
-    folder_for_save = input("Enter your adress for folder to text your pictures "": ")
+    folder_for_save = input("Enter your address for the folder to save your text pictures: ")
 
     if os.path.exists(folder_for_save):
+        text_variables = []  # list with text from images
+
+        for i in range(1, amount_files + 1):
+            file_path_i = ready_list[i - 1]  # Corrected index and variable name
+            globals()[f"file_path_{i}"] = file_path_i
+
+            text = text_recognition(file_path=file_path_i)
+            text_variables.append(text)
+
+        print(text_variables)
+
+    else:
+        print('Folder does not exist')
 
 
-        text_variables = []
-
-        for i, file_path in enumerate(ready_list):
-            text_variable_name = f"text_{i + 1}"
-            text_variables.append(text_variable_name)
-            locals()[text_variable_name] = text_recognition(file_path=file_path)
-            print(f'{text_variable_name}: {locals()[text_variable_name]}')
-
-
-            text_1 = os.path.join(folder_for_save, "text_1.txt")
-
-         
 if __name__ == "__main__":
     main()
+
 
 
 
