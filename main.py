@@ -61,22 +61,12 @@ def main():
             text_variables.append(text)
 
         
-
-        text_1 = str(text_variables[0])
-        text_2 = str(text_variables[1])
-        text_3 = str(text_variables[2])
-
-        way_text1 = os.path.join(folder_for_save, names_files[0])
-        with open(way_text1, 'w') as main_txt_file:
-            main_txt_file.write(text_1)
-
-        way_text2 = os.path.join(folder_for_save, names_files[1])
-        with open(way_text2, 'w') as main_txt_file:
-            main_txt_file.write(text_2)
-
-        way_text3 = os.path.join(folder_for_save, names_files[2])
-        with open(way_text3, 'w') as main_txt_file:
-            main_txt_file.write(text_3)
+    
+        
+        for i, text in enumerate(text_variables, start=1):
+            way_text = os.path.join(folder_for_save, names_files[i-1])  # Формирование пути к файлу
+            with open(way_text, 'w') as main_txt_file:
+                main_txt_file.write(str(text))
 
     else:
         print('Folder does not exist')
